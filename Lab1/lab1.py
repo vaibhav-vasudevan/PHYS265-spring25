@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.integrate as integrate
+from matplotlib.colors import LogNorm
 
 # Constants
 G = 6.67e-11  # gravitational constant
@@ -54,31 +55,29 @@ plt.title("Gravitational Potential of Earth")
 plt.axis("equal")
 plt.show()
 
-#part 2
 x_moon = d_EM / np.sqrt(2)
 y_moon = d_EM / np.sqrt(2)
 
 Phi_total = np.abs(gravitational_potential(M_E, 0, 0, X, Y)) + np.abs(gravitational_potential(M_M, x_moon, y_moon, X, Y))
 
-# 1. 2d color mesh plot of earth moon potential
+# Fixed 2D Color Mesh Plot for Earth-Moon Potential
 plt.figure(figsize=(8,6))
 plt.pcolormesh(X / 1e6, Y / 1e6, np.log10(Phi_total), shading='auto')
 plt.colorbar(label="log(|Φ|) (J/kg)")
-plt.xlabel("x (x10^6 m)")
-plt.ylabel("y (x10^6 m)")
+plt.xlabel("x (Million meters)")
+plt.ylabel("y (Million meters)")
 plt.title("Gravitational Potential of Earth-Moon System")
 plt.axis("equal")
 plt.show()
 
-# 2. contour plot of earth-moon potential
+# Fixed Contour Plot for Earth-Moon Potential
 plt.figure(figsize=(8,6))
-contour_levels = np.logspace(np.log10(Phi_total.min()), np.log10(Phi_total.max()), 30)
-plt.contourf(X / 1e6, Y / 1e6, Phi_total, levels=contour_levels, cmap="viridis")
-plt.colorbar(label="|Φ| (J/kg)")
-plt.xlabel("x (x10^6 m)")
-plt.ylabel("y (x10^6 m)")
-plt.title("Contour Plot of Earth-Moon System Potential")
-plt.axis("equal")
+contour = plt.contour(X / 1e6, Y / 1e6, Phi_total, levels=50, norm=LogNorm())
+plt.colorbar(contour, label="|Gravitational Potential| (J/kg)")
+plt.xlabel("x (Million meters)")
+plt.ylabel("y (Million meters)")
+plt.title("Gravitational Potential Contours (Earth-Moon System)")
+plt.axis('equal')
 plt.show()
 
 #part 3
